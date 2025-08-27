@@ -1,0 +1,10 @@
+streamlit
+pypdf
+python-docx
+sentence-transformers
+langchain_google_genai
+langchain-community
+dotenv
+reportlab
+langchain-chroma
+langchain-huggingface
