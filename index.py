@@ -32,7 +32,7 @@ if current_page == "home":
         file = st.session_state.resume_file
         st.success(f"✅ File in session: {file.name} ({file.size} bytes)")
 
-        if st.button("Load and fetch"):
+        if st.button("Load and Chat"):
             current_retriever = load_and_split_store(file)
             st.session_state.retriever_state = current_retriever
         if retriever:=st.session_state.get("retriever_state",None):
