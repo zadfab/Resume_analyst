@@ -33,13 +33,16 @@ if current_page == "home":
         st.success(f"✅ File in session: {file.name} ({file.size} bytes)")
 
         if st.button("Load and Chat"):
-            current_retriever = load_and_split_store(file)
-            st.session_state.retriever_state = current_retriever
+            with st.spinner("Loading your resume. Please wait"):
+                current_retriever = load_and_split_store(file)
+                st.session_state.retriever_state = current_retriever
+                st.balloons()
         if retriever:=st.session_state.get("retriever_state",None):
             user_query = st.text_area(label="Chat with your Resume")
-            if st.button("submit"):
+            if st.button("Submit"):
                 response = get_chat_details(retriever,user_query)
                 st.write(response)
+                
         if st.button("Upload a different file"):
             st.session_state.resume_file = None
             st.session_state.retriever_state = None
@@ -59,9 +62,9 @@ elif current_page == "match":
         key="jd_text_key",
         on_change=text_area_changed
     )
-    if jd_text:=st.session_state.get("stored_jd_text",""):
-        if st.session_state.get("resume_file") and st.session_state.get("retriever_state"):
-            if st.button("Get ATS score"):
+    if st.button("Get ATS score"):
+        if jd_text:=st.session_state.get("stored_jd_text",""):
+            if st.session_state.get("resume_file") and st.session_state.get("retriever_state"):
                 with st.spinner("Getting ATS score. Please wait"):
                     ats_obj = get_ats_detials(jd_text)
                     st.subheader("Your ATS score")
@@ -70,8 +73,13 @@ elif current_page == "match":
                     st.markdown("\n* ".join(ats_obj.matched_skills))
                     st.subheader("Missing skills : ")
                     st.markdown("\n* ".join(ats_obj.missing_skills))
+            else:
+                st.write("🙏🏻 please upload your resume in home page and load the document")
+   
         else:
-            st.write("🙏🏻 please upload your resume in home page and load the document")
+            st.toast("Add your Job Description 😞")
+        
+           
                
     
 
@@ -94,6 +102,6 @@ elif current_page == "cover":
                     st.markdown(cover_letter_text)
 
         else:
-            st.write("🙏🏻 please add job description in job match page")
+            st.write("🙏🏻 Please add job description in job match page")
     else:
-        st.write("🙏🏻 please upload your resume in home page and load the document")
+        st.write("🙏🏻 Please upload your resume in home page and load the document")
