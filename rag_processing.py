@@ -1,3 +1,6 @@
+import sys
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
 from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -14,8 +17,6 @@ from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel
 from typing import List
 from io import BytesIO
-import sys
-import pysqlite3
 import re
 import tempfile
 from dotenv import load_dotenv
@@ -27,7 +28,6 @@ try :
 except Exception as e:
     load_dotenv()
 
-sys.modules["sqlite3"] = pysqlite3
 
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",  # or "gemini-2.5-pro" if supported in your setup

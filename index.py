@@ -37,8 +37,9 @@ if current_page == "home":
             st.session_state.retriever_state = current_retriever
         if retriever:=st.session_state.get("retriever_state",None):
             user_query = st.text_area(label="Chat with your Resume")
-            response = get_chat_details(retriever,user_query)
-            st.write(response)
+            if st.button("submit"):
+                response = get_chat_details(retriever,user_query)
+                st.write(response)
         if st.button("Upload a different file"):
             st.session_state.resume_file = None
             st.session_state.retriever_state = None
